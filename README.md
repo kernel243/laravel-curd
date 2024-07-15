@@ -11,13 +11,13 @@ A Laravel package to generate CRUD operations quickly and easily.
 You can install the package via composer:
 
 ```bash
-composer require votre-nom/laravel-crud-generator
+composer require ztech243/laravel-crud
 ```
 
 Optionally, you can publish the stubs for customization:
 
 ```bash
-php artisan vendor:publish --provider="VotreNom\CrudGenerator\Providers\CrudGeneratorServiceProvider"
+php artisan vendor:publish --provider="Ztech243\CrudGenerator\Providers\CrudGeneratorServiceProvider"
 ```
 
 ## Usage
