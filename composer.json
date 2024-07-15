@@ -1,5 +1,5 @@
 {
-    "name": "ztech243/laravel-crud",
+    "name": "ztech243/artisan-crud",
     "description": "A Laravel package to generate CRUD operations",
     "type": "library",
     "license": "MIT",
