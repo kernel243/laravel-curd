@@ -1,0 +1,21 @@
+{
+    "name": "ztech243/laravel-crud-generator",
+    "description": "A Laravel package to generate CRUD operations",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "Ztech243\\CrudGenerator\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Ztech243\\CrudGenerator\\Providers\\CrudGeneratorServiceProvider"
+            ]
+        }
+    },
+    "require": {
+        "php": "^8.0",
+        "illuminate/support": "^9.0"
+    }
+}
