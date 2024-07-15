@@ -1,0 +1,59 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Http\Requests\Store{{modelName}}Request;
+use App\Http\Requests\Update{{modelName}}Request;
+use App\Repositories\{{modelName}}Repository;
+use Illuminate\Http\Request;
+
+class {{modelName}}Controller extends Controller
+{
+    protected $repository;
+
+    public function __construct({{modelName}}Repository $repository)
+    {
+        $this->repository = $repository;
+    }
+
+    public function index()
+    {
+        $items = $this->repository->getAll();
+        return view('{{modelNamePluralLowerCase}}.index', compact('items'));
+    }
+
+    public function create()
+    {
+        return view('{{modelNamePluralLowerCase}}.create');
+    }
+
+    public function store(Store{{modelName}}Request $request)
+    {
+        $this->repository->store($request->validated());
+        return redirect()->route('{{modelNamePluralLowerCase}}.index');
+    }
+
+    public function show($id)
+    {
+        $item = $this->repository->getById($id);
+        return view('{{modelNamePluralLowerCase}}.show', compact('item'));
+    }
+
+    public function edit($id)
+    {
+        $item = $this->repository->getById($id);
+        return view('{{modelNamePluralLowerCase}}.edit', compact('item'));
+    }
+
+    public function update(Update{{modelName}}Request $request, $id)
+    {
+        $this->repository->update($request->validated(), $id);
+        return redirect()->route('{{modelNamePluralLowerCase}}.index');
+    }
+
+    public function destroy($id)
+    {
+        $this->repository->delete($id);
+        return redirect()->route('{{modelNamePluralLowerCase}}.index');
+    }
+}

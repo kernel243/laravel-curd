@@ -1,0 +1,18 @@
+@extends('layouts.app')
+
+@section('content')
+<div class="container">
+    <h1>Edit {{modelName}}</h1>
+    <form action="{{ route('{{modelNamePluralLowerCase}}.update', $item->id) }}" method="POST">
+        @csrf
+        @method('PUT')
+        {{#each fillableAttributes}}
+        <div class="form-group">
+            <label for="{{this}}">{{this}}</label>
+            <input type="text" class="form-control" id="{{this}}" name="{{this}}" value="{{ $item->{{this}} }}">
+        </div>
+        {{/each}}
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+@endsection

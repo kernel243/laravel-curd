@@ -11,14 +11,14 @@ class CrudGeneratorServiceProvider extends ServiceProvider
 {
     public function register()
     {
-        // $this->app->singleton(ModelParserService::class, function ($app) {
-        //     return new ModelParserService();
-        // });
+        $this->app->singleton(ModelParserService::class, function ($app) {
+            return new ModelParserService();
+        });
 
-        // $this->commands([
-        //     MakeCrudApiCommand::class,
-        //     MakeCrudBladeCommand::class,
-        // ]);
+        $this->commands([
+            MakeCrudApiCommand::class,
+            MakeCrudBladeCommand::class,
+        ]);
     }
 
     public function boot()

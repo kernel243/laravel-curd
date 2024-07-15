@@ -1,0 +1,25 @@
+@extends('layouts.app')
+
+@section('content')
+<div class="container">
+    <h1>{{modelName}} Details</h1>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>ID</th>
+                {{#each fillableAttributes}}
+                <th>{{this}}</th>
+                {{/each}}
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{ $item->id }}</td>
+                {{#each fillableAttributes}}
+                <td>{{ $item->{{this}} }}</td>
+                {{/each}}
+            </tr>
+        </tbody>
+    </table>
+</div>
+@endsection

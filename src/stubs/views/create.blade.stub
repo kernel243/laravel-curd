@@ -1,0 +1,17 @@
+@extends('layouts.app')
+
+@section('content')
+<div class="container">
+    <h1>Create {{modelName}}</h1>
+    <form action="{{ route('{{modelNamePluralLowerCase}}.store') }}" method="POST">
+        @csrf
+        {{#each fillableAttributes}}
+        <div class="form-group">
+            <label for="{{this}}">{{this}}</label>
+            <input type="text" class="form-control" id="{{this}}" name="{{this}}">
+        </div>
+        {{/each}}
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+@endsection

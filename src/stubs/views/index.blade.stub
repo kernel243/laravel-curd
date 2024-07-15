@@ -1,0 +1,38 @@
+@extends('layouts.app')
+
+@section('content')
+<div class="container">
+    <h1>{{modelNamePlural}} List</h1>
+    <a href="{{ route('{{modelNamePluralLowerCase}}.create') }}" class="btn btn-primary">Create New {{modelName}}</a>
+    <table class="table table-bordered mt-3">
+        <thead>
+            <tr>
+                <th>ID</th>
+                {{#each fillableAttributes}}
+                <th>{{this}}</th>
+                {{/each}}
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach($items as $item)
+            <tr>
+                <td>{{ $item->id }}</td>
+                {{#each fillableAttributes}}
+                <td>{{ $item->{{this}} }}</td>
+                {{/each}}
+                <td>
+                    <a href="{{ route('{{modelNamePluralLowerCase}}.show', $item->id) }}" class="btn btn-info">Show</a>
+                    <a href="{{ route('{{modelNamePluralLowerCase}}.edit', $item->id) }}" class="btn btn-warning">Edit</a>
+                    <form action="{{ route('{{modelNamePluralLowerCase}}.destroy', $item->id) }}" method="POST" style="display:inline-block;">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
+</div>
+@endsection
