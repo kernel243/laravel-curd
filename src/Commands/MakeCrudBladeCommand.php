@@ -88,6 +88,8 @@ class MakeCrudBladeCommand extends Command
             $this->getStub('blade-controller')
         );
 
+        $this->ensureDirectoryExists(app_path("/Http/Controllers"));
+
         file_put_contents(app_path("/Http/Controllers/{$name}Controller.php"), $controllerTemplate);
     }
 
@@ -103,6 +105,8 @@ class MakeCrudBladeCommand extends Command
             [$name],
             $this->getStub('model')
         );
+
+        $this->ensureDirectoryExists(app_path("/Models"));
 
         file_put_contents(app_path("/Models/{$name}.php"), $modelTemplate);
     }
@@ -125,6 +129,8 @@ class MakeCrudBladeCommand extends Command
             $this->getStub('migration')
         );
 
+        $this->ensureDirectoryExists(database_path("/migrations"));
+
         file_put_contents(database_path("/migrations/{$migrationFile}"), $migrationTemplate);
     }
 
@@ -143,6 +149,8 @@ class MakeCrudBladeCommand extends Command
             [$name, $rules],
             $this->getStub('blade-request')
         );
+
+        $this->ensureDirectoryExists(app_path("/Http/Requests"));
 
         file_put_contents(app_path("/Http/Requests/Store{$name}Request.php"), $storeRequestTemplate);
 
@@ -171,9 +179,7 @@ class MakeCrudBladeCommand extends Command
                 $this->getStub('blade-view')
             );
 
-            if (!is_dir(resource_path("views/{$name}"))) {
-                mkdir(resource_path("views/{$name}"), 0755, true);
-            }
+            $this->ensureDirectoryExists(resource_path("views/{$name}"));
 
             file_put_contents(resource_path("views/{$name}/{$view}.blade.php"), $viewTemplate);
         }
@@ -191,6 +197,18 @@ class MakeCrudBladeCommand extends Command
     }
 
     /**
+     * Assure que le répertoire donné existe; sinon, le crée.
+     *
+     * @param string $path
+     */
+    protected function ensureDirectoryExists($path)
+    {
+        if (!is_dir($path)) {
+            mkdir($path, 0755, true);
+        }
+    }
+
+    /**
      * Récupère le stub pour le type spécifié.
      *
      * @param string $type
@@ -198,7 +216,11 @@ class MakeCrudBladeCommand extends Command
      */
     protected function getStub($type)
     {
-        return file_get_contents(resource_path("stubs/vendor/crud-generator/{$type}.stub"));
+        $stubPath = resource_path("stubs/vendor/crud-generator/{$type}.stub");
+        if (!file_exists($stubPath)) {
+            $stubPath = __DIR__ . "/../../stubs/{$type}.stub";
+        }
+        return file_get_contents($stubPath);
     }
 
     /**

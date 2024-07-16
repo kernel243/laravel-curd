@@ -1,8 +1,8 @@
 
 # Laravel CRUD Generator
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/votre-nom/laravel-crud-generator.svg?style=flat-square)](https://packagist.org/packages/votre-nom/laravel-crud-generator)
-[![Total Downloads](https://img.shields.io/packagist/dt/votre-nom/laravel-crud-generator.svg?style=flat-square)](https://packagist.org/packages/votre-nom/laravel-crud-generator)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/ztech243/artisan-crud.svg?style=flat-square)](https://packagist.org/packages/ztech243/artisan-crud)
+[![Total Downloads](https://img.shields.io/packagist/dt/ztech243/artisan-crud.svg?style=flat-square)](https://packagist.org/packages/ztech243/artisan-crud)
 
 A Laravel package to generate CRUD operations quickly and easily.
 

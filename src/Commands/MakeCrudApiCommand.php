@@ -90,6 +90,8 @@ class MakeCrudApiCommand extends Command
             $this->getStub('api-controller')
         );
 
+        $this->ensureDirectoryExists(app_path("/Http/Controllers/Api"));
+
         file_put_contents(app_path("/Http/Controllers/Api/{$name}Controller.php"), $controllerTemplate);
     }
 
@@ -105,6 +107,8 @@ class MakeCrudApiCommand extends Command
             [$name],
             $this->getStub('model')
         );
+
+        $this->ensureDirectoryExists(app_path("/Models"));
 
         file_put_contents(app_path("/Models/{$name}.php"), $modelTemplate);
     }
@@ -127,6 +131,8 @@ class MakeCrudApiCommand extends Command
             $this->getStub('migration')
         );
 
+        $this->ensureDirectoryExists(database_path("/migrations"));
+
         file_put_contents(database_path("/migrations/{$migrationFile}"), $migrationTemplate);
     }
 
@@ -145,6 +151,8 @@ class MakeCrudApiCommand extends Command
             [$name, $rules],
             $this->getStub('api-request')
         );
+
+        $this->ensureDirectoryExists(app_path("/Http/Requests"));
 
         file_put_contents(app_path("/Http/Requests/Store{$name}Request.php"), $storeRequestTemplate);
 
@@ -173,6 +181,8 @@ class MakeCrudApiCommand extends Command
             $this->getStub('api-resource')
         );
 
+        $this->ensureDirectoryExists(app_path("/Http/Resources"));
+
         file_put_contents(app_path("/Http/Resources/{$name}Resource.php"), $resourceTemplate);
     }
 
@@ -188,6 +198,18 @@ class MakeCrudApiCommand extends Command
     }
 
     /**
+     * Ensure the given directory exists; if it doesn't, create it.
+     *
+     * @param string $path
+     */
+    protected function ensureDirectoryExists($path)
+    {
+        if (!is_dir($path)) {
+            mkdir($path, 0755, true);
+        }
+    }
+
+    /**
      * Get the stub file for the generator.
      *
      * @param string $type
@@ -195,7 +217,11 @@ class MakeCrudApiCommand extends Command
      */
     protected function getStub($type)
     {
-        return file_get_contents(resource_path("stubs/vendor/crud-generator/{$type}.stub"));
+        $stubPath = resource_path("stubs/vendor/crud-generator/{$type}.stub");
+        if (!file_exists($stubPath)) {
+            $stubPath = __DIR__ . "/../../stubs/{$type}.stub";
+        }
+        return file_get_contents($stubPath);
     }
 
     /**
