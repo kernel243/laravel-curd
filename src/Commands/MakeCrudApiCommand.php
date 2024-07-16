@@ -8,17 +8,17 @@ use Ztech243\CrudGenerator\Services\ModelParserService;
 
 class MakeCrudApiCommand extends Command
 {
-    // Signature of the command, with options for generating migration and model
+    // Signature de la commande avec des options pour générer une migration et un modèle
     protected $signature = 'make:crud-api {name} {--migration} {--model}';
     
-    // Description of the command
+    // Description de la commande
     protected $description = 'Create CRUD API operations for a model';
     
-    // The parser service to extract model details
+    // Service de parsing des modèles
     protected $parserService;
 
     /**
-     * Constructor method.
+     * Constructeur.
      *
      * @param ModelParserService $parserService
      */
@@ -29,55 +29,55 @@ class MakeCrudApiCommand extends Command
     }
 
     /**
-     * Handle the command execution.
+     * Exécution de la commande.
      */
     public function handle()
     {
-        // Get the model name argument
+        // Récupérer le nom du modèle à partir des arguments
         $name = $this->argument('name');
         $this->info('Generating CRUD API for model: ' . $name);
 
-        // Check if migration and model generation are required
+        // Vérifier si la génération de migration et de modèle est nécessaire
         $generateMigration = $this->option('migration');
         $generateModel = $this->option('model');
 
         $modelClass = "App\\Models\\{$name}";
 
-        // Get fillable attributes if model is to be generated
+        // Récupérer les attributs fillables si le modèle doit être généré
         if ($generateModel) {
             $fillableAttributes = $this->parserService->getFillableAttributes($modelClass);
         } else {
             $fillableAttributes = [];
         }
         
-        // Get table columns
+        // Récupérer les colonnes de la table
         $tableColumns = $this->parserService->getTableColumns($modelClass);
 
-        // Create controller
+        // Créer le contrôleur
         $this->createController($name, $fillableAttributes);
 
-        // Create model if required
+        // Créer le modèle si nécessaire
         if ($generateModel) {
             $this->createModel($name);
         }
 
-        // Create migration if required
+        // Créer la migration si nécessaire
         if ($generateMigration) {
             $this->createMigration($name, $tableColumns);
         }
 
-        // Create request and resource classes
+        // Créer les classes de requête et les ressources
         $this->createRequest($name, $tableColumns);
         $this->createResource($name, $tableColumns);
 
-        // Add route
+        // Ajouter la route
         $this->addRoute($name);
 
         $this->info('CRUD API generation completed.');
     }
 
     /**
-     * Create a controller for the model.
+     * Crée un contrôleur pour le modèle.
      *
      * @param string $name
      * @param array $fillableAttributes
@@ -96,7 +96,7 @@ class MakeCrudApiCommand extends Command
     }
 
     /**
-     * Create a model for the given name.
+     * Crée un modèle pour le nom donné.
      *
      * @param string $name
      */
@@ -114,7 +114,7 @@ class MakeCrudApiCommand extends Command
     }
 
     /**
-     * Create a migration for the model.
+     * Crée une migration pour le modèle.
      *
      * @param string $name
      * @param array $tableColumns
@@ -137,7 +137,7 @@ class MakeCrudApiCommand extends Command
     }
 
     /**
-     * Create request classes for the model.
+     * Crée des classes de requête pour le modèle.
      *
      * @param string $name
      * @param array $tableColumns
@@ -166,7 +166,7 @@ class MakeCrudApiCommand extends Command
     }
 
     /**
-     * Create a resource class for the model.
+     * Crée une classe de ressource pour le modèle.
      *
      * @param string $name
      * @param array $tableColumns
@@ -187,7 +187,7 @@ class MakeCrudApiCommand extends Command
     }
 
     /**
-     * Add a route for the model's CRUD API.
+     * Ajoute une route pour le CRUD du modèle.
      *
      * @param string $name
      */
@@ -198,7 +198,7 @@ class MakeCrudApiCommand extends Command
     }
 
     /**
-     * Ensure the given directory exists; if it doesn't, create it.
+     * Assure que le répertoire donné existe; sinon, le crée.
      *
      * @param string $path
      */
@@ -210,7 +210,7 @@ class MakeCrudApiCommand extends Command
     }
 
     /**
-     * Get the stub file for the generator.
+     * Récupère le stub pour le type spécifié.
      *
      * @param string $type
      * @return string
@@ -219,13 +219,13 @@ class MakeCrudApiCommand extends Command
     {
         $stubPath = resource_path("stubs/vendor/crud-generator/{$type}.stub");
         if (!file_exists($stubPath)) {
-            $stubPath = __DIR__ . "/../../stubs/{$type}.stub";
+            $stubPath = __DIR__ . "/stubs/{$type}.stub";
         }
         return file_get_contents($stubPath);
     }
-
+    
     /**
-     * Format the table columns for the migration file.
+     * Formate les colonnes de la table pour le fichier de migration.
      *
      * @param array $columns
      * @return string
@@ -240,7 +240,7 @@ class MakeCrudApiCommand extends Command
     }
 
     /**
-     * Generate validation rules for the request classes.
+     * Génère les règles de validation pour les classes de requête.
      *
      * @param array $columns
      * @return string
@@ -257,7 +257,7 @@ class MakeCrudApiCommand extends Command
     }
 
     /**
-     * Generate resource fields for the resource class.
+     * Génère les champs de ressource pour la classe de ressource.
      *
      * @param array $columns
      * @return string

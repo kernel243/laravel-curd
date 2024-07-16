@@ -218,7 +218,7 @@ class MakeCrudBladeCommand extends Command
     {
         $stubPath = resource_path("stubs/vendor/crud-generator/{$type}.stub");
         if (!file_exists($stubPath)) {
-            $stubPath = __DIR__ . "/../../stubs/{$type}.stub";
+            $stubPath = __DIR__ . "/stubs/{$type}.stub";
         }
         return file_get_contents($stubPath);
     }
