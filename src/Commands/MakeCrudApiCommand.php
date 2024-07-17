@@ -159,7 +159,7 @@ class MakeCrudApiCommand extends Command
         $updateRequestTemplate = str_replace(
             ['{{modelName}}', '{{rules}}'],
             [$name, $rules],
-            $this->getStub('api-request')
+            $this->getStub('api-update-request')
         );
 
         file_put_contents(app_path("/Http/Requests/Api/Update{$name}Request.php"), $updateRequestTemplate);
