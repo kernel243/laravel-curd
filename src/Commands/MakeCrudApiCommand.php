@@ -193,7 +193,7 @@ class MakeCrudApiCommand extends Command
      */
     protected function addRoute($name)
     {
-        $routeTemplate = "\n Route::apiResource('".strtolower(Str::plural($name))."', App\Http\Controllers\Api\\".$name."Controller::class);";
+        $routeTemplate = "Route::apiResource('".strtolower(Str::plural($name))."', App\Http\Controllers\Api\\".$name."Controller::class);";
         file_put_contents(base_path('routes/api.php'), $routeTemplate.PHP_EOL, FILE_APPEND);
     }
 
