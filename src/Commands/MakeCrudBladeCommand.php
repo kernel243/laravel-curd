@@ -112,7 +112,7 @@ class MakeCrudBladeCommand extends Command
         $updateRequestTemplate = str_replace(
             ['{{modelName}}', '{{rules}}'],
             [$name, $rules],
-            $this->getStub('blade-request')
+            $this->getStub('blade-update-request')
         );
 
         file_put_contents(app_path("/Http/Requests/Update{$name}Request.php"), $updateRequestTemplate);
