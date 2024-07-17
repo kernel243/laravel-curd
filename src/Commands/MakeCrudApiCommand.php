@@ -152,9 +152,9 @@ class MakeCrudApiCommand extends Command
             $this->getStub('api-request')
         );
 
-        $this->ensureDirectoryExists(app_path("/Http/Requests"));
+        $this->ensureDirectoryExists(app_path("/Http/Requests/Api"));
 
-        file_put_contents(app_path("/Http/Requests/Store{$name}Request.php"), $storeRequestTemplate);
+        file_put_contents(app_path("/Http/Requests/Api/Store{$name}Request.php"), $storeRequestTemplate);
 
         $updateRequestTemplate = str_replace(
             ['{{modelName}}', '{{rules}}'],
@@ -162,7 +162,7 @@ class MakeCrudApiCommand extends Command
             $this->getStub('api-request')
         );
 
-        file_put_contents(app_path("/Http/Requests/Update{$name}Request.php"), $updateRequestTemplate);
+        file_put_contents(app_path("/Http/Requests/Api/Update{$name}Request.php"), $updateRequestTemplate);
     }
 
     /**
@@ -193,7 +193,7 @@ class MakeCrudApiCommand extends Command
      */
     protected function addRoute($name)
     {
-        $routeTemplate = "Route::apiResource('".strtolower(Str::plural($name))."', App\Http\Controllers\Api\\".$name."Controller::class);";
+        $routeTemplate = "\n Route::apiResource('".strtolower(Str::plural($name))."', App\Http\Controllers\Api\\".$name."Controller::class);";
         file_put_contents(base_path('routes/api.php'), $routeTemplate.PHP_EOL, FILE_APPEND);
     }
 
@@ -266,7 +266,9 @@ class MakeCrudApiCommand extends Command
     {
         $fields = [];
         foreach ($columns as $column => $type) {
-            $fields[] = "'{$column}' => \$this->{$column},";
+            if ($column !== 'deleted_at') {
+                $fields[] = "'{$column}' => \$this->{$column},";
+            }
         }
         return implode("\n", $fields);
     }
